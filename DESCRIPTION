@@ -1,0 +1,67 @@
+Package: QFeaturesScpWorkshop2021
+Title: Reproducing a single-cell proteomics data analysis using QFeatures and scp.
+Version: 0.1.0
+Authors@R:
+    c(person(given = "Laurent",
+             family = "Gatto",
+             role = c("aut", "cre"),
+             email = "laurent.gatto@uclouvain.be",
+             comment = c(ORCID = "0000-0002-1520-2268")),
+      person(given = "Christophe",
+             family = "Vanderaa",
+             email = "christophe.vanderaa@uclouvain.be",
+             comment = c(ORCID = "0000-0001-7443-5427"),
+             role = "aut"))
+Description: Recent advances in sample preparation, processing and mass
+  spectrometry (MS) have enabled the emergence of MS-based single-cell
+  proteomics (SCP). `QFeatures` along with its extension `scp` allow for
+  standardized analysis of SCP data. `QFeatures` is based on the
+  `SummarizedExperiment` and `MultiAssayExperiment` Bioconductor classes.
+  Assays in a `QFeatures` object have a hierarchical relation: proteins
+  are composed of peptides, themselves produced by spectra. Throughout
+  the aggregation and processing of these data, the relations between
+  assays are tracked and recorded. `QFeatures` is further able to track
+  those relations across hundreds of acquisition batches that are
+  usually required for SCP experiments. Users can therefore easily
+  navigate across spectra, peptide and protein quantitative data within
+  or between acquisition batches. In this workshop, we will reproduce an
+  existing SCP data analysis on a subset of the original dataset. We
+  will demonstrate how to import data containing multiple acquisition
+  batches as `QFeatures` objects, how to process and analyse data in
+  `QFeatures` objects, and how to interpret the results. Along the road,
+  we will highlight the current limitation in the field when it comes to
+  analysing SCP data, namely showing the presence of important batch
+  effects and data missingness. Some familiarity with Bioconductor data
+  analysis, in particular the `SummarizedExperiment` class, and basic
+  knowledge about single-cell analyses are recommended to follow this
+  workshop.
+License: Artistic-2.0
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.0
+Depends:
+    HDF5Array,
+    SummarizedExperiment,
+    MultiAssayExperiment,
+    QFeatures,
+    scp,
+    scpdata
+Suggests:
+    knitr,
+    rmarkdown,
+    pkgdown,
+    BiocStyle,
+    msdata,
+    preprocessCore,
+    limma,
+    ggplot2,
+    tidyverse,
+    factoextra,
+    patchwork,
+    MsCoreUtils,
+    gplots
+URL: https://github.com/lgatto/QFeaturesScpWorkshop2021
+BugReports: https://github.com/lgatto/QFeaturesScpWorkshop2021/issues/
+VignetteBuilder: knitr
+DockerImage: lgatto/qfeaturesscpworkshop2021:latest

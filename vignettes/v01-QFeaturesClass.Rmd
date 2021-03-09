@@ -1,0 +1,280 @@
+---
+title: "The QFeatures class"
+author: "Laurent Gatto and Christophe Vanderaa"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The QFeatures class}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: refs.bib
+---
+
+```{r style, echo = FALSE, results = 'asis', message = FALSE}
+library(BiocStyle)
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      collapse = TRUE)
+```
+
+**Last modified:** `r file.info("v01-QFeaturesClass.Rmd")$mtime`<br />
+**Compiled**: `r date()`
+
+
+**Learning Objectives** The goals of this workshop are to provide a
+real-life example of step-by-step quantitative proteomics data
+analysis using the `QFeatures` package. This vignette focuses on the
+`QFeatures` infrastructure.
+
+## Introduction
+
+Mass spectrometry-based quantitative proteomics data can be
+representated as a matrix of quantitative values for features (PSMs,
+peptides, proteins) arranged along the rows, measured for a set of
+samples, arranged along the columns. The is a common representation
+for any quantitative data set. We will be using the
+`SummarizedExperiment` [@SE] class:
+
+```{r sefig, echo = FALSE, fig.cap = "Schematic representation of the anatomy of a `SummarizedExperiment` object. (Figure taken from the `SummarizedExperiment` package vignette.)"}
+knitr::include_graphics("SE.png")
+```
+
+- The sample (columns) metadata can be access with the `colData()`
+  function.
+- The features (rows) metadata can be access with the `rowData()`
+  column.
+- If the features represent ranges along genomic coordinates, these
+  can be accessed with `rowRanges()`
+- Additional metadata describing the overall experiment can be
+  accessed with `metadata()`.
+- The quantiative data can be accessed with `assay()`.
+- `assays()` returns a list of matrix-like assays.
+
+## QFeatures
+
+While mass spectrometers acquire data for spectra/peptides, the
+biological entity of interest are the protein. As part of the data
+processing, we are thus required to **aggregate** low-level
+quantitative features into higher level data.
+
+
+```{r featuresplot, fig.cap = "Conceptual representation of a `QFeatures` object and the aggregative relation between different assays.", echo = FALSE}
+par(mar = c(0, 0, 0, 0))
+plot(NA, xlim = c(0, 12), ylim = c(0, 20),
+     xaxt = "n", yaxt = "n",
+     xlab = "", ylab = "", bty = "n")
+
+for (i in 0:7)
+    rect(0, i, 3, i+1, col = "lightgrey", border = "white")
+
+
+for (i in 8:12)
+    rect(0, i, 3, i+1, col = "steelblue", border = "white")
+
+for (i in 13:18)
+    rect(0, i, 3, i+1, col = "orange", border = "white")
+
+for (i in 19)
+    rect(0, i, 3, i+1, col = "darkgrey", border = "white")
+
+
+for (i in 5:7)
+    rect(5, i, 8, i+1, col = "lightgrey", border = "white")
+
+for (i in 8:10)
+    rect(5, i, 8, i+1, col = "steelblue", border = "white")
+
+for (i in 11:13)
+    rect(5, i, 8, i+1, col = "orange", border = "white")
+
+for (i in 14)
+    rect(5, i, 8, i+1, col = "darkgrey", border = "white")
+
+rect(9, 8, 12, 8+1, col = "lightgrey", border = "white")
+rect(9, 9, 12, 9+1, col = "steelblue", border = "white")
+rect(9, 10, 12, 10+1, col = "orange", border = "white")
+rect(9, 11, 12, 11+1, col = "darkgrey", border = "white")
+
+segments(3, 8, 5, 8, lty = "dashed")
+segments(3, 6, 5, 7, lty = "dashed")
+segments(3, 4, 5, 6, lty = "dashed")
+segments(3, 0, 5, 5, lty = "dashed")
+
+segments(3, 10, 5, 9, lty = "dashed")
+segments(3, 11, 5, 10, lty = "dashed")
+segments(3, 13, 5, 11, lty = "dashed")
+
+segments(3, 14, 5, 12, lty = "dashed")
+segments(3, 16, 5, 13, lty = "dashed")
+segments(3, 19, 5, 14, lty = "dashed")
+
+segments(3, 20, 5, 15, lty = "dashed")
+
+
+segments(8, 5, 9, 8, lty = "dashed")
+segments(8, 8, 9, 9, lty = "dashed")
+segments(8, 11, 9, 10, lty = "dashed")
+segments(8, 14, 9, 11, lty = "dashed")
+segments(8, 15, 9, 12, lty = "dashed")
+```
+
+We are going to start to familiarise ourselves with the `QFeatures`
+class implemented in the
+[`QFeatures`](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html)
+package. The class is derived from the Bioconductor
+`MultiAssayExperiment` [@MAE] class. Let's start by loading the
+`QFeatures` package.
+
+
+```{r pkgs, message = FALSE}
+library("QFeatures")
+```
+
+Next, we load the `feat1` test data, which is composed of single
+*assay* of class `SummarizedExperiment` composed of 10 rows and 2
+columns.
+
+```{r load_feat1}
+data(feat1)
+feat1
+```
+
+Let's perform some simple operations to familiarise ourselves with the
+`QFeatures` class:
+
+- Extract the sample metadata using the `colData()` accessor (like you
+  have previously done with `SummarizedExperiment` objects).
+
+```{r cd}
+colData(feat1)
+```
+
+- Extract the first (and only) assay composing this `QFeaures` data
+  using the `[[` operator (as you have done to extract elements of a
+  list) by using the assay's index or name.
+
+```{r assay1}
+feat1[[1]]
+feat1[["psms"]]
+```
+
+- Extract the `psms` assay's row data and quantitative values.
+
+```{r rd}
+assay(feat1[[1]])
+rowData(feat1[[1]])
+```
+
+## Feature aggregation
+
+
+The central functionality of the `QFeatures` infrastructure is the
+aggregation of features into higher-level features while retaining the
+link between the different levels. This can be done with the
+[`aggregateFeatures()` function](https://rformassspectrometry.github.io/QFeatures/reference/QFeatures-aggregate.html).
+
+The call below will
+
+- operate on the `psms` assay of the `feat1` objects;
+- aggregate the rows the assay following the grouping defined in the
+  `peptides` row data variables;
+- perform aggregation using the `colMeans()` function;
+- create a new assay named `peptides` and add it to the `feat1`
+  object.
+
+```{r agg1}
+feat1 <- aggregateFeatures(feat1, i = "psms",
+                           fcol = "Sequence",
+                           name = "peptides",
+                           fun = colMeans)
+feat1
+```
+
+- Let's convince yourself that we understand the effect of feature
+  aggregation and repeat the calculations manually and check the
+  content of the new assay's row data.
+
+```{r cm}
+## SYGFNAAR
+colMeans(assay(feat1[[1]])[1:3, ])
+assay(feat1[[2]])["SYGFNAAR", ]
+
+## ELGNDAYK
+colMeans(assay(feat1[[1]])[4:6, ])
+assay(feat1[[2]])["ELGNDAYK", ]
+
+## IAEESNFPFIK
+colMeans(assay(feat1[[1]])[7:10, ])
+assay(feat1[[2]])["IAEESNFPFIK", ]
+```
+
+```{r rd2}
+rowData(feat1[[2]])
+```
+
+
+We can now aggregate the peptide-level data into a new protein-level
+assay using the `colMedians()` aggregation function.
+
+```{r agg2}
+feat1 <- aggregateFeatures(feat1, i = "peptides",
+                           fcol = "Protein",
+                           name = "proteins",
+                           fun = colMedians)
+feat1
+assay(feat1[["proteins"]])
+```
+
+
+## Subsetting and filtering
+
+The link between the assays becomes apparent when we now subset the
+assays for protein A as shown below or using the `subsetByFeature()`
+function. This creates a new instance of class `QFeatures` containing
+assays with the expression data for protein, its peptides and their
+PSMs.
+
+```{r prota}
+feat1["ProtA", , ]
+```
+
+
+The `filterFeatures()` function can be used to filter rows the assays
+composing a `QFeatures` object using the row data variables. We can
+for example retain rows that have a `pval` < 0.05, which would only
+keep rows in the `psms` assay because the `pval` is only relevant for
+that assay.
+
+```{r ff1}
+filterFeatures(feat1, ~ pval < 0.05)
+```
+
+On the other hand, if we filter assay rows for those that localise to
+the mitochondrion, we retain the relevant protein, peptides and PSMs.
+
+```{r ff2}
+filterFeatures(feat1, ~ location == "Mitochondrion")
+```
+
+As an exercise, let's filter rows that do not localise to the
+mitochondrion.
+
+
+```{r ff3}
+filterFeatures(feat1, ~ location != "Mitochondrion")
+```
+
+
+You can refer to the [*Quantitative features for mass spectrometry
+data*](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html)
+vignette and the `QFeature` [manual
+page](https://rformassspectrometry.github.io/QFeatures/reference/QFeatures-class.html)
+for more details about the class.
+
+
+## Session information {-}
+
+```{r si}
+sessionInfo()
+```
+
+## References {-}

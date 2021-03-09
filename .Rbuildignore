@@ -1,0 +1,9 @@
+^renv$
+^renv\.lock$
+^LICENSE\.md$
+.github
+Dockerfile
+_pkgdown.yml
+^.*\.Rproj$
+^\.Rproj\.user$
+.editorconfig

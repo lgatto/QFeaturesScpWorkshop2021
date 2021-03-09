@@ -1,0 +1,15 @@
+url: https://UCLouvain-CBIO.github.io/QFeaturesScpWorkshop2021
+
+template:
+  params:
+    bootswatch: flatly
+
+home:
+  title: "Reproducing a single-cell proteomics data analysis using QFeatures and scp"
+  type: inverse
+
+
+navbar:
+  right:
+   - icon: fa-github
+     href: https://github.com/UCLouvain-CBIO/QFeaturesScpWorkshop2021
