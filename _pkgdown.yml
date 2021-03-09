@@ -1,4 +1,4 @@
-url: https://UCLouvain-CBIO.github.io/QFeaturesScpWorkshop2021
+url: https://lgatto.github.io/QFeaturesScpWorkshop2021
 
 template:
   params:
@@ -12,4 +12,4 @@ home:
 navbar:
   right:
    - icon: fa-github
-     href: https://github.com/UCLouvain-CBIO/QFeaturesScpWorkshop2021
+     href: https://github.com/lgatto/QFeaturesScpWorkshop2021
