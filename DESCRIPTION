@@ -61,7 +61,7 @@ Suggests:
     patchwork,
     MsCoreUtils,
     gplots
-URL: https://github.com/lgatto/QFeaturesScpWorkshop2021
-BugReports: https://github.com/lgatto/QFeaturesScpWorkshop2021/issues/
+URL: https://github.com/UCLouvain-CBIO/QFeaturesScpWorkshop2021
+BugReports: https://github.com/UCLouvain-CBIO/QFeaturesScpWorkshop2021/issues/
 VignetteBuilder: knitr
 DockerImage: lgatto/qfeaturesscpworkshop2021:latest
