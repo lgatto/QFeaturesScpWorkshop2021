@@ -1,0 +1,96 @@
+---
+title: "Using scp for single-cell proteomics analyses"
+author: "Laurent Gatto and Christophe Vanderaa"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{The scp package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+bibliography: refs.bib
+---
+
+```{r style, echo = FALSE, results = 'asis', message = FALSE}
+library(BiocStyle)
+knitr::opts_chunk$set(echo = TRUE,
+                      message = FALSE,
+                      collapse = TRUE)
+```
+
+**Last modified:** `r file.info("v02-scp.Rmd")$mtime`<br />
+**Compiled**: `r date()`
+
+# Introduction
+
+Mass spectrometry (MS)-based single-cell proteomics (SCP) is emerging
+thanks to several recent technological advances in sample preparation,
+liquid chromatography (LC) and MS (see @Kelly2020-xd for a 
+comprehensive review). The improvements tackle the issues encountered
+when dealing with small sample amounts and focus on: 
+
+* Reducing sample loss
+* Increasing sensitivity and quantification accuracy
+* Increasing acquisition throughput
+
+Two main strategies have currently been developed. On the one hand,
+label-free protocols acquire one single cell per MS run leading to 
+accurate quantification but low sensitivity and throughput. On the 
+other hand, label-based protocols multiplex several single-cell samples 
+in one MS run leading to higher throughput (1000 cells per week). 
+Another advantage of label-based protocols is the inclusion of a 
+carrier sample, that is a sample containing between tens to hundreds 
+of cells. Including a carrier increases sensitivity thanks to 
+increased sample material, but at the cost of decreased quantification
+accuracy due to chemical noise (linked to sample labelling) and
+competition between the single-cell samples and the carrier sample 
+during MS acquisition.
+
+# The `scp` data framework
+
+SCP data is very similar to bulk proteomics data with the exception 
+that the PSM data may be composed of tens to hundreds of separate 
+acquisition runs. The `QFeatures` class is able to store this 
+acquisition structure by considering each MS run as a separate assay.
+The assays can be subjected to downstream analysis for single-cell 
+data such as dimensions reduction, clustering, differential abundance
+analysis,... Therefore, the assays are stored as `SingleCellExperiment`
+objects (@Lun2020-cv) to create a direct interface to existing 
+Bioconductor packages to perform such downstream analyses. The links 
+between related features across different assays are also stored to facilitate 
+manipulation and visualization of of PSM, peptide and protein data as we 
+go along with the processing workflow. 
+
+```{r featuresplot, fig.cap = "Conceptual overview of a `QFeatures` object containing SCP data. Each assay is stored as a `SingleCellExperiment` object.", echo = FALSE}
+knitr::include_graphics("figs/SCP_framework.png")
+```
+
+# The `scp` package
+
+The general workflow for processing SCP data is very similar to the 
+workflow for bulk proteomics that we presented in the previous 
+vignette. Therefore, the `QFeatures` package already contains most of 
+the tools required for the processing of SCP data. The `scp` package
+implements the missing functions that are specifically designed for 
+dealing with SCP data. Here are a few examples:
+
+- Import SCP data as a `QFeatures` object
+- Compute the sample over carrier signal ratio to filter out 
+  low-quality features
+- Compute the median coefficient of variation within each single-cell
+  to filter out failed samples
+
+# Read in data using `readSCP`
+
+
+
+
+# Exercise: reproduce a published analysis
+
+
+
+- include SCOPE2 workflow
+- Probably not ideal workflow
+
+
+
+
+# Downstream analyses

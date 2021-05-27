@@ -19,23 +19,17 @@ knitr::opts_chunk$set(echo = TRUE,
 **Last modified:** `r file.info("v01-QFeaturesClass.Rmd")$mtime`<br />
 **Compiled**: `r date()`
 
-
-**Learning Objectives** The goals of this workshop are to provide a
-real-life example of step-by-step quantitative proteomics data
-analysis using the `QFeatures` package. This vignette focuses on the
-`QFeatures` infrastructure.
-
 ## Introduction
 
 Mass spectrometry-based quantitative proteomics data can be
-representated as a matrix of quantitative values for features (PSMs,
+represented as a matrix of quantitative values for features (PSMs,
 peptides, proteins) arranged along the rows, measured for a set of
-samples, arranged along the columns. The is a common representation
-for any quantitative data set. We will be using the
+samples, arranged along the columns. The matrix format is a common 
+representation for any quantitative data set. We will be using the
 `SummarizedExperiment` [@SE] class:
 
 ```{r sefig, echo = FALSE, fig.cap = "Schematic representation of the anatomy of a `SummarizedExperiment` object. (Figure taken from the `SummarizedExperiment` package vignette.)"}
-knitr::include_graphics("SE.png")
+knitr::include_graphics("figs/SE.png")
 ```
 
 - The sample (columns) metadata can be access with the `colData()`
