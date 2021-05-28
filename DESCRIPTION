@@ -60,7 +60,13 @@ Suggests:
     factoextra,
     patchwork,
     MsCoreUtils,
-    gplots
+    gplots,
+    SCP.replication,
+    scater,
+    scran,
+    scuttle,
+    bluster,
+    BiocNeighbors
 URL: https://github.com/lgatto/QFeaturesScpWorkshop2021
 BugReports: https://github.com/lgatto/QFeaturesScpWorkshop2021/issues/
 VignetteBuilder: knitr
