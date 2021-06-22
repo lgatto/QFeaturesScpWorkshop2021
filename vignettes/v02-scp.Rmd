@@ -179,7 +179,7 @@ preparation batch, ... `scp` **requires** 2 specific fields in the sample metada
    the quantification of the corresponding sample. This is illustrated
    below by the arrow.
 
-```{r, fig.cap = "Linking the sample data to the feature data", echo = FALSE}
+```{r, fig.cap = "Linking the sample data to the feature data. Figure taken from @Vanderaa2021-xd", echo = FALSE}
 knitr::include_graphics("figs/readSCP_relation.png")
 ```
 
@@ -356,16 +356,20 @@ authors in the original work.
 
 First, to reduce the computational burden we will focus on part of the 
 data. The samples that were acquired in 4 chromatographic batches and
-we will run this example on the batch called (`LCB3`). We subset
-the `Qfeatures` using the triple-index brackets 
-`[feature, sample, assay]` and using the LC batch annotation available
-from the `colData`. Note also that we use `drop = TRUE` to drop 
-assays that do not contains samples acquired in `LCB7` batch. 
+we will run this example on the batch called (`LCB3`).  
 
 ```{r}
-# TODO Takes too much time...
-# scp <- scp[, scp$lcbatch == "LCB3", , drop = TRUE]
 scp <- scp[, , grepl("LCB3", names(scp))]
+```
+
+Note that we could also have subset the `Qfeatures` using the 
+triple-index brackets `[feature, sample, assay]` and using the LC 
+batch annotation available from the `colData`. This is still requires
+optimization to run in a decent amount of time, but should be the 
+better option once done.
+
+```{r, eval = FALSE}
+scp <- scp[, scp$lcbatch == "LCB3", , drop = TRUE]
 ```
 
 ## PSM quality control
@@ -435,14 +439,12 @@ scp <- pep2qvalue(scp,
 ```
 
 We can extract the q-values from the `rowData` of several assays using
-the `rowDataToDF` function. It takes the `rowData` of interest and
-returns a single `DataFrame` table with variables of interest. We plot
+the `rbindRowData`` function. It takes the `rowData` of interest and
+returns a single `DataFrame` table with all common variables. We plot
 the q-values along with the DART-ID PEPs using `ggplot2` facets.
 
 ```{r qvalue_plot, message=FALSE}
-rowDataToDF(scp,
-            i = names(scp),
-            vars = c("dart_PEP", "qvalue_psm", "qvalue_protein")) %>%
+rbindRowData(scp, i = names(scp)) %>%
     data.frame %>%
     pivot_longer(cols = c("dart_PEP", "qvalue_psm", "qvalue_protein"),
                  names_to = "measure") %>%
@@ -528,7 +530,7 @@ assay.
 ```{r computeSCR}
 scp <- computeSCR(scp,
                   i = names(scp),
-                  colDataCol = "SampleType",
+                  colvar = "SampleType",
                   carrierPattern = "Carrier",
                   samplePattern = 4:16)
 ```
@@ -544,9 +546,7 @@ avoided when using a character pattern.
 Before applying the filter, we plot the distribution of the mean SCR.
 
 ```{r meanSCR_plot, warning=FALSE, message=FALSE}
-rowDataToDF(scp,
-            i = names(scp),
-            vars = "MeanSCR") %>%
+rbindRowData(scp, i = names(scp)) %>%
     data.frame %>%
     ggplot(aes(x = MeanSCR)) +
     geom_histogram() +
@@ -587,7 +587,7 @@ contain only ones.
 ```{r}
 scp <- divideByReference(scp,
                          i = names(scp),
-                         colDataCol = "SampleType",
+                         colvar = "SampleType",
                          samplePattern = ".",
                          refPattern = "Reference")
 ```
@@ -661,9 +661,7 @@ we replace the problematic peptides to protein mappings through a
 majority vote.
 
 ```{r set_consensus, message=FALSE}
-scp %>%
-    rowDataToDF(i = names(scp)[1:24],
-                vars = c("peptide", "protein")) %>%
+rbindRowData(scp, i = names(scp)[1:24]) %>%
     data.frame %>%
     group_by(peptide) %>%
     ## The majority vote happens here
@@ -673,11 +671,10 @@ scp %>%
     filter(!duplicated(peptide, protein)) ->
     ppMap
 consensus <- lapply(peptideAssays, function(i) {
-    ppMap$protein[match(rowData(scp[[i]])$peptide, ppMap$peptide)]
+    DataFrame(protein = ppMap$protein[match(rowData(scp[[i]])$peptide, ppMap$peptide)])
 })
 names(consensus) <- peptideAssays
-## TODO put this in QFeatures
-scp <- replaceRowDataCols(scp, i = peptideAssays, "protein", consensus)
+rowData(scp) <- consensus
 ```
 
 This code chunk is hard to read, but this issue should represent a
@@ -1055,6 +1052,10 @@ sce <- runTSNE(sce,
 ## Plotting is performed in a single line of code
 plotTSNE(sce, colour_by = "lcbatch") 
 plotTSNE(sce, colour_by = "SampleType")
+```
+
+```{r}
+t1 <- Sys.time()
 ```
 
 ## Cluster analysis
