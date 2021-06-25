@@ -68,6 +68,8 @@ Suggests:
     scuttle,
     bluster,
     BiocNeighbors
+Remotes:
+   UCLouvain-CBIO/SCP.replication
 URL: https://github.com/lgatto/QFeaturesScpWorkshop2021
 BugReports: https://github.com/lgatto/QFeaturesScpWorkshop2021/issues/
 VignetteBuilder: knitr

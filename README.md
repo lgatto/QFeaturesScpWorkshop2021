@@ -1,28 +1,6 @@
----
-title: "QFeatures and scp Workshop - Bioc2021"
-author: "Laurent Gatto and Christophe Vanderaa"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{QFeatures and scp Workshop - Bioc2021}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
-bibliography: refs.bib
----
-
-```{r style, echo = FALSE, results = 'asis', message = FALSE}
-library(BiocStyle)
-knitr::opts_chunk$set(echo = TRUE,
-                      message = FALSE,
-                      collapse = TRUE)
-```
-
 # Single-cell proteomics data analysis using QFeatures and scp
 
-Authors:
-    Laurent Gatto^[UCLouvain, Belgium],
-    Christophe Vanderaa^[UCLouvain, Belgium].
-    <br/>
-**Last modified:** `r file.info("README.md")$mtime`<br/>
+Authors: Laurent Gatto and Christophe Vanderaa.
 
 ## Overview
 
@@ -30,18 +8,18 @@ Authors:
 
 Mass spectrometry (MS)-based single-cell proteomics (SCP) is an emerging field that 
 requires a dedicated computational environment. `QFeatures` along with
-its extension `scp` allow for standardized analysis of SCP data. The 
-workshop will start by introducing the `QFeatures` class and its 
-functions to perform generic proteomics data analysis. We will then 
-move to SCP and present how `scp` extends `QFeatures` to single-cell 
+its extension `scp` allow for standardized analysis of SCP data. The
+workshop will start by introducing the `QFeatures` class and its
+functions to perform generic proteomics data analysis. We will then
+move to SCP and present how `scp` extends `QFeatures` to single-cell
 applications. The remainder of the workshop will be a hands-on session
 where attendees will be guided through the reproduction of a real-life
-analysis of published SCP data. Along the reproduction exercise, we 
-will point out to current challenges that still need to be tackled 
-computationally. This workshop is meant for inexperienced users that 
+analysis of published SCP data. Along the reproduction exercise, we
+will point out to current challenges that still need to be tackled
+computationally. This workshop is meant for inexperienced users that
 want to learn how to perform current state-of-the-art analysis of SCP
-data as well as experienced developers interested in contributing to 
-an emerging and exciting single-cell technology. 
+data as well as experienced developers interested in contributing to
+an emerging and exciting single-cell technology.
 
 This workshop is provided as two vignettes. The [first vignette](https://lgatto.github.io/QFeaturesScpWorkshop2021/articles/v01-QFeatures.html)
 provides a general introduction to the `QFeatures` class in the 
@@ -59,20 +37,20 @@ set.
 * Familiarity with the `SummarizedExperiment` class
 * Familiarity with the `tidyverse` ecosystem
 
-We recommend reading the paper that has published the SCP analysis that 
+We recommend reading the paper that has published the SCP analysis that
 will be reproduced in this workshop:
 
-Specht, Harrison, Edward Emmott, Aleksandra A. Petelski, R. Gray 
-Huffman, David H. Perlman, Marco Serra, Peter Kharchenko, Antonius 
-Koller, and Nikolai Slavov. 2021. "Single-Cell Proteomic and 
-Transcriptomic Analysis of Macrophage Heterogeneity Using SCoPE2.” 
-Genome Biology 22 (1): 50. 
+Specht, Harrison, Edward Emmott, Aleksandra A. Petelski, R. Gray
+Huffman, David H. Perlman, Marco Serra, Peter Kharchenko, Antonius
+Koller, and Nikolai Slavov. 2021. "Single-Cell Proteomic and
+Transcriptomic Analysis of Macrophage Heterogeneity Using SCoPE2.”
+Genome Biology 22 (1): 50.
 [link to article](http://dx.doi.org/10.1186/s13059-021-02267-5),
 [link to preprint](https://www.biorxiv.org/content/10.1101/665307v5)
 
 ### _R_ / _Bioconductor_ packages used
 
-`QFeatures`, `scp`, `scpdata`, `MultiAssayExperiment`, 
+`QFeatures`, `scp`, `scpdata`, `MultiAssayExperiment`,
 `SingleCellExperiment`
 
 ### Time outline
@@ -93,10 +71,10 @@ This 90 min workshop will be split in three parts:
 
 ### Learning objectives
 
-- Use `QFeatures` and `scp` to perform a real-life analysis of SCP 
+- Use `QFeatures` and `scp` to perform a real-life analysis of SCP
   data
-- Integrate the workflow with other tools such as the `tidyverse` 
-  ecosystem for efficient data visualization or the 
+- Integrate the workflow with other tools such as the `tidyverse`
+  ecosystem for efficient data visualization or the
   `SingleCellExperiment` related tools for extending the current
   analysis workflow.
 
@@ -133,8 +111,8 @@ user `rstudio` and password `bioc`.
 During the [Bioc2021](https://bioc2021.bioconductor.org/) conference,
 the workshop can be [run in the cloud](http://app.orchestra.cancerdatasci.org/).
 
-The content of this workshop is provided under a 
-[CC-BY ShareAlike](https://creativecommons.org/licenses/by-sa/2.0/) 
+The content of this workshop is provided under a
+[CC-BY ShareAlike](https://creativecommons.org/licenses/by-sa/2.0/)
 license.
 
 
@@ -144,7 +122,7 @@ To cite package 'QFeaturesScpWorkshop2021' in publications use:
 
   Laurent Gatto and Christophe Vanderaa (NA). QFeaturesScpWorkshop2021:
   Reproducing a single-cell proteomics data analysis using QFeatures
-  and scp.. R package version 0.1.0.
+  and scp. R package version 0.1.0.
   https://github.com/lgatto/QFeaturesScpWorkshop2021
 
 A BibTeX entry for LaTeX users is
