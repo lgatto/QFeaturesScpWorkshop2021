@@ -16,17 +16,29 @@ knitr::opts_chunk$set(echo = TRUE,
                       collapse = TRUE)
 ```
 
-**Last modified:** `r file.info("v01-QFeaturesClass.Rmd")$mtime`<br />
+**Last modified:** `r file.info("v01-QFeaturesClass.Rmd")$mtime`<br/>
 **Compiled**: `r date()`
 
 ## Introduction
 
-Mass spectrometry-based quantitative proteomics data can be
-represented as a matrix of quantitative values for features (PSMs,
-peptides, proteins) arranged along the rows, measured for a set of
-samples, arranged along the columns. The matrix format is a common 
-representation for any quantitative data set. We will be using the
-`SummarizedExperiment` [@SE] class:
+`QFeatures` is a package for the manipulation of mass spectrometry 
+(MS)-based quantitative proteomics data. The quantitative data is 
+generally obtained after running a preprocessing algorithm on MS 
+spectra. This algorithm matches the spectra to a peptide database to 
+infer the peptide sequence from which the spectra originated. Spectra
+for which a corresponding peptide could be found are called peptide to
+spectrum matches (PSMs). The intensities recorded by the MS are then 
+used to quantify the PSMs. The quantified PSMs are used as input by 
+`QFeatures` and undergo various data wrangling steps to reconstruct
+the peptide data and then the protein data, usually of interest for 
+elucidating the biological question at hand. 
+
+MS-based quantification data can be represented as a matrix of 
+quantitative values for features (PSMs, peptides, proteins) arranged 
+along the rows, measured for a set of samples, arranged along the 
+columns. The matrix format is a common representation for any 
+quantitative data set. We will be using the `SummarizedExperiment` 
+[@SE] class:
 
 ```{r sefig, echo = FALSE, fig.cap = "Schematic representation of the anatomy of a `SummarizedExperiment` object. (Figure taken from the `SummarizedExperiment` package vignette.)"}
 knitr::include_graphics("figs/SE.png")
@@ -49,7 +61,6 @@ While mass spectrometers acquire data for spectra/peptides, the
 biological entity of interest are the protein. As part of the data
 processing, we are thus required to **aggregate** low-level
 quantitative features into higher level data.
-
 
 ```{r featuresplot, fig.cap = "Conceptual representation of a `QFeatures` object and the aggregative relation between different assays.", echo = FALSE}
 par(mar = c(0, 0, 0, 0))
@@ -117,7 +128,6 @@ class implemented in the
 package. The class is derived from the Bioconductor
 `MultiAssayExperiment` [@MAE] class. Let's start by loading the
 `QFeatures` package.
-
 
 ```{r pkgs, message = FALSE}
 library("QFeatures")
@@ -231,7 +241,6 @@ PSMs.
 feat1["ProtA", , ]
 ```
 
-
 The `filterFeatures()` function can be used to filter rows the assays
 composing a `QFeatures` object using the row data variables. We can
 for example retain rows that have a `pval` < 0.05, which would only
@@ -256,7 +265,6 @@ mitochondrion.
 ```{r ff3}
 filterFeatures(feat1, ~ location != "Mitochondrion")
 ```
-
 
 You can refer to the [*Quantitative features for mass spectrometry
 data*](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html)

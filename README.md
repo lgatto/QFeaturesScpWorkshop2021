@@ -6,7 +6,7 @@ Authors: Laurent Gatto and Christophe Vanderaa.
 
 ### Description
 
-MS-based single-cell proteomics (SCP) is an emerging field that
+Mass spectrometry (MS)-based single-cell proteomics (SCP) is an emerging field that 
 requires a dedicated computational environment. `QFeatures` along with
 its extension `scp` allow for standardized analysis of SCP data. The
 workshop will start by introducing the `QFeatures` class and its
@@ -20,6 +20,16 @@ computationally. This workshop is meant for inexperienced users that
 want to learn how to perform current state-of-the-art analysis of SCP
 data as well as experienced developers interested in contributing to
 an emerging and exciting single-cell technology.
+
+This workshop is provided as two vignettes. The [first vignette](https://lgatto.github.io/QFeaturesScpWorkshop2021/articles/v01-QFeatures.html)
+provides a general introduction to the `QFeatures` class in the 
+general context of MS-based proteomics data manipulation. The 
+[second vignette](https://lgatto.github.io/QFeaturesScpWorkshop2021/articles/v02-scp.html)
+focuses on single-cell application and introduces the `scp` package as
+an extension of `QFeatures`. This second vignette also provides an 
+exercise that gives the attendee the opportunity to apply the learned
+concepts to reproduce a published analysis on a subset of a real data
+set.
 
 ### Pre-requisites
 
@@ -42,7 +52,6 @@ Genome Biology 22 (1): 50.
 
 `QFeatures`, `scp`, `scpdata`, `MultiAssayExperiment`,
 `SingleCellExperiment`
-
 
 ### Time outline
 
@@ -98,7 +107,6 @@ docker run -e PASSWORD=bioc -p 8787:8787 lgatto/qfeaturesscpworkshop2021:latest
 
 Once running, navigate to https://localhost:8787/ and then login with
 user `rstudio` and password `bioc`.
-
 
 During the [Bioc2021](https://bioc2021.bioconductor.org/) conference,
 the workshop can be [run in the cloud](http://app.orchestra.cancerdatasci.org/).
