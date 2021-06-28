@@ -47,6 +47,7 @@ jobs:
           ## remotes::install_git('https://git.bioconductor.org/packages/GenomeInfoDb', repos=BiocManager::repositories())
           ## remotes::install_git('https://git.bioconductor.org/packages/MultiAssayExperiment', repos=BiocManager::repositories())
           BiocManager::install("RforMassSpectrometry/QFeatures")
+          BiocManager::install("UCLouvain-CBIO/scp")
           remotes::install_deps(dependencies = TRUE, repos = BiocManager::repositories())
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
