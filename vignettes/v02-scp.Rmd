@@ -14,6 +14,10 @@ library(BiocStyle)
 knitr::opts_chunk$set(echo = TRUE,
                       message = FALSE,
                       collapse = TRUE)
+```
+
+
+```{r packages, echo = FALSE, results = 'asis', message = FALSE}
 library(scp)
 library(scpdata)
 library(sva)
@@ -343,7 +347,7 @@ from scratch. We have used `scp` to standardize this workflow
 easily be adapted to other data sets. The outline of the workflow is 
 shown below. 
 
-```{r SCoPE2_workflow, fig.cap = "Workflow describing the main steps performed by Specht et al. to process the SCP data. Figure taken from @Vanderaa2021-xd", echo = FALSE}
+```{r SCoPE2_workflow, fig.cap = "Workflow describing the main steps performed by Specht et al. to process the SCP data. Figure taken from @Vanderaa2021-xd", echo = FALSE, out.width="80%", eval=TRUE}
 knitr::include_graphics("figs/SCoPE2_workflow.png")
 ```
 
