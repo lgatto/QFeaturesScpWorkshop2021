@@ -14,7 +14,9 @@ library(BiocStyle)
 knitr::opts_chunk$set(echo = TRUE,
                       message = FALSE,
                       collapse = TRUE)
-library(SCP.replication)
+library(scp)
+library(scpdata)
+library(sva)
 library(tidyverse)
 ```
 
@@ -186,7 +188,7 @@ is illustrated below by the linked circles.
 the quantification of the corresponding sample. This is illustrated
 below by the arrow.
 
-```{r, fig.cap = "Linking the sample data to the feature data. Figure taken from @Vanderaa2021-xd", echo = FALSE}
+```{r, fig.cap = "Linking the sample data to the feature data.", echo = FALSE}
 knitr::include_graphics("figs/readSCP_relation.png")
 ```
 
@@ -341,7 +343,7 @@ from scratch. We have used `scp` to standardize this workflow
 easily be adapted to other data sets. The outline of the workflow is 
 shown below. 
 
-```{r SCoPE2_workflow, fig.cap = "Workflow describing the main steps performed by Specht et al. to process the SCP data.", echo = FALSE}
+```{r SCoPE2_workflow, fig.cap = "Workflow describing the main steps performed by Specht et al. to process the SCP data. Figure taken from @Vanderaa2021-xd", echo = FALSE}
 knitr::include_graphics("figs/SCoPE2_workflow.png")
 ```
 
@@ -958,7 +960,7 @@ to different imputation algorithms among which the KNN algorithm from
 KNN imputation algorith; You can arbitrarily set K = 3. 
 
 <details><summary>Solution</summary>
-```{r, eval = FALSE}
+```{r}
 scp <- impute(scp,
               i = "proteins_norm2",
               method = "knn",
@@ -993,20 +995,14 @@ sce <- getWithColData(scp, "proteins_norm2")
 
 We next store the batch variable and create the design matrix. We then
 perform the batch correction and overwrite the data matrix. Recall the 
-data matrix can be accessed using the `assay` function. Note also that 
-we here use the `ComBatv3.34` function that is provided in this 
-package. This function was taken from an older version of the `sva` 
-package (version `3.34.0`). This is to replicate the SCoPE2 results. 
-More recent versions will avoid batch correction for proteins that 
-show no variance within at least one batch and this occurs for a 
-significant proportion of the proteins (artefact of imputation).
+data matrix can be accessed using the `assay` function. 
 
 ```{r, results='hide', message=FALSE}
 batch <- colData(sce)$Set
 model <- model.matrix(~ SampleType, data = colData(sce))
-assay(sce) <- ComBatv3.34(dat = assay(sce),
-                          batch = batch,
-                          mod = model)
+assay(sce) <- ComBat(dat = assay(sce),
+                     batch = batch,
+                     mod = model)
 ```
 
 Finally, we need to put the modified assay back into the `QFeatures` 
@@ -1053,14 +1049,27 @@ exploration and downstream analyses.
 
 The `QFeatures` package provides the `longFormat` function that formats
 the data set as a long table, ideal for the integration with `ggplot2`.
-
 This can be used for instance to explore the different processing steps
-applied to the data. 
+applied to the data. Suppose you have a protein of interest, for 
+instance Filamin-A (`P21333`). You can subset the `QFeatures` object 
+with that protein using the first index in the bracket function. Note
+that the subsetting will select that protein and all associated 
+peptides and PSMs across all assays. Next the `QFeatures` is converted
+to a long table, containing the quantitative values, but also some 
+variables of interest from the `colData` (`colvars`) and the `rowData`
+(`rowvars`). We can use the metadata to filter for a batch of interest
+for example.
+
+```{r}
+lf <- longFormat(scp["P21333", , ],
+                 colvars = c("Set", "Channel", "SampleType"))
+lf <- filter(data.frame(lf), Set == "190913S_LCB3_X_16plex_Set_12")
+```
+
+This filtered long data is then passed to `ggplot2` for data 
+visualization.
 
 ```{r, fig.height=10, fig.width=10}
-lf <- longFormat(scp["P21333", , ],
-                 colvars = c("Set", "Channel", "SampleType")) 
-lf <- filter(data.frame(lf), Set == "190913S_LCB3_X_16plex_Set_12")
 ggplot(lf) +
     aes(x = Channel, 
         y = value,
@@ -1070,10 +1079,13 @@ ggplot(lf) +
     theme(axis.text.x = element_text(angle = 90))
 ```
 
+This graph can be used to track the processing of the quantitative 
+data. 
+
 Since each assay is a `SingleCellExperiment` object, the data can also
 easily be plugged into dimension reduction functions from the 
-Bioconductor package `scater`.  We show here an example of dimension
-reduction result using t-SNE. 
+Bioconductor package `scater`. We show here an example of dimension
+reduction results using t-SNE. 
 
 ```{r}
 sce <- getWithColData(scp, "proteins_scp")
@@ -1089,6 +1101,24 @@ sce <- runTSNE(sce,
 plotTSNE(sce, colour_by = "SampleType")
 ```
 
+This graph shows a low dimension representation of the final processed
+protein data. Each point represents a cell. The sample type is 
+accessed from the `colData` and coloured on the graph. This allows to
+evaluate whether the quantitative data contains information to 
+separate monocytes from differentiated macrophages. 
+
+# Conclusion
+
+We hope we could convince you that 
+`QFeatures` and its extension `scp` are an ideal environment to 
+manipulate and process MS-SCP quantification data. This is only the 
+beginning of the journey, as further development and benchmarking are
+required to offer improved processing workflows. Furthermore, 
+downstream analyses, such as differential expression analyses, require
+the development of new statistical methods to model the complex data
+structure present in SCP data (@Vanderaa2021-xd). Those methods could
+highly benefit from the `QFeatures` and `scp` infrastructure to access
+and manipulate the required information.
 
 # Session information {-}
 
