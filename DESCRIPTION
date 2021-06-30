@@ -62,7 +62,6 @@ Suggests:
     matrixStats,
     MsCoreUtils,
     gplots,
-    SCP.replication,
     scater,
     scran,
     scuttle,
