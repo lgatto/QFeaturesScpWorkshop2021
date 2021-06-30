@@ -67,7 +67,8 @@ Suggests:
     scran,
     scuttle,
     bluster,
-    BiocNeighbors
+    BiocNeighbors,
+    impute
 Remotes:
    UCLouvain-CBIO/SCP.replication
 URL: https://github.com/lgatto/QFeaturesScpWorkshop2021
