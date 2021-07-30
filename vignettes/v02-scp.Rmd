@@ -1,9 +1,9 @@
 ---
-title: "Using scp for single-cell proteomics analyses"
+title: "scp for single-cell proteomics analyses"
 author: "Laurent Gatto and Christophe Vanderaa"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{The scp package}
+  %\VignetteIndexEntry{scp for single-cell proteomics analyses}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 bibliography: refs.bib
@@ -1246,6 +1246,24 @@ highly benefit from the `QFeatures` and `scp` infrastructure to access
 and manipulate the required information. Furthermore, the `scpdata` 
 package provides ready-to-process data that represent valuable use cases
 to build analytical method onto. 
+
+# Further reading
+
+- You can find more information about how to load your own data using 
+  `scp` in 
+  [this vignette](https://uclouvain-cbio.github.io/scp/articles/read_scp.html).
+- We also dedicated a 
+  [separate vignette](https://rformassspectrometry.github.io/QFeatures/articles/Visualization.html)
+  about data visualization from a `QFeatures` object. 
+- If you want to push forward the development of new analytical 
+  methods and QC metrics in for single-cell proteomics, we also 
+  recommend you to read the 
+  [advanced vignette](https://uclouvain-cbio.github.io/scp/articles/advanced.html).
+
+Have a look at [our paper](http://dx.doi.org/10.1101/2021.04.12.439408)
+that describes the reproduction of the complete SCoPE2 data set and 
+highlights some important challenges that remain to be tackled in the
+field. 
 
 # Session information {-}
 

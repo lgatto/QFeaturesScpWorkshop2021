@@ -265,12 +265,13 @@ mitochondrion.
 filterFeatures(feat1, ~ location != "Mitochondrion")
 ```
 
+## Further reading
+
 You can refer to the [*Quantitative features for mass spectrometry
 data*](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html)
 vignette and the `QFeature` [manual
 page](https://rformassspectrometry.github.io/QFeatures/reference/QFeatures-class.html)
 for more details about the class.
-
 
 ## Session information {-}
 
