@@ -23,11 +23,11 @@ knitr::opts_chunk$set(echo = TRUE,
 
 `QFeatures` is a package for the manipulation of mass spectrometry 
 (MS)-based quantitative proteomics data. The quantitative data is 
-generally obtained after running a preprocessing algorithm on MS 
-spectra. This algorithm matches the spectra to a peptide database to 
-infer the peptide sequence from which the spectra originated. Spectra
-for which a corresponding peptide could be found are called peptide to
-spectrum matches (PSMs). The intensities recorded by the MS are then 
+generally obtained after running a preprocessing algorithm on raw MS 
+profiles called spectra. The algorithm attempts to match each spectra 
+to a peptide database to infer the peptide sequence. A spectrum
+for which a corresponding peptide could be found is called peptide to
+spectrum match (PSM). The intensities recorded by the MS are then 
 used to quantify the PSMs. The quantified PSMs are used as input by 
 `QFeatures` and undergo various data wrangling steps to reconstruct
 the peptide data and then the protein data, usually of interest for 
@@ -215,7 +215,6 @@ assay(feat1[[2]])["IAEESNFPFIK", ]
 rowData(feat1[[2]])
 ```
 
-
 We can now aggregate the peptide-level data into a new protein-level
 assay using the `colMedians()` aggregation function.
 
@@ -266,12 +265,13 @@ mitochondrion.
 filterFeatures(feat1, ~ location != "Mitochondrion")
 ```
 
+## Further reading
+
 You can refer to the [*Quantitative features for mass spectrometry
 data*](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html)
 vignette and the `QFeature` [manual
 page](https://rformassspectrometry.github.io/QFeatures/reference/QFeatures-class.html)
 for more details about the class.
-
 
 ## Session information {-}
 
