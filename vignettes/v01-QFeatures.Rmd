@@ -1,7 +1,9 @@
 ---
 title: "The QFeatures class"
 author: "Laurent Gatto and Christophe Vanderaa"
-output: rmarkdown::html_vignette
+output: 
+    rmarkdown::html_vignette:
+        number_sections: true
 vignette: >
   %\VignetteIndexEntry{The QFeatures class}
   %\VignetteEngine{knitr::rmarkdown}
@@ -19,7 +21,7 @@ knitr::opts_chunk$set(echo = TRUE,
 **Last modified:** `r file.info("v01-QFeaturesClass.Rmd")$mtime`<br/>
 **Compiled**: `r date()`
 
-## Introduction
+# Introduction
 
 `QFeatures` is a package for the manipulation of mass spectrometry 
 (MS)-based quantitative proteomics data. The quantitative data is 
@@ -40,7 +42,7 @@ columns. The matrix format is a common representation for any
 quantitative data set. We will be using the `SummarizedExperiment` 
 [@SE] class:
 
-```{r sefig, echo = FALSE, fig.cap = "Schematic representation of the anatomy of a `SummarizedExperiment` object. (Figure taken from the `SummarizedExperiment` package vignette.)"}
+```{r sefig, echo = FALSE, fig.cap = "Schematic representation of the anatomy of a `SummarizedExperiment` object. (Figure taken from the `SummarizedExperiment` package vignette.)", out.width="80%"}
 knitr::include_graphics("figs/SE.png")
 ```
 
@@ -48,14 +50,14 @@ knitr::include_graphics("figs/SE.png")
   function.
 - The features (rows) metadata can be access with the `rowData()`
   column.
-- If the features represent ranges along genomic coordinates, these
-  can be accessed with `rowRanges()`
-- Additional metadata describing the overall experiment can be
-  accessed with `metadata()`.
 - The quantiative data can be accessed with `assay()`.
 - `assays()` returns a list of matrix-like assays.
 
-## QFeatures
+Note that other classes that inherits from `SummarizedExperiment` can 
+also be used. We will see in the other vignette that for single-cell
+proteomics data, we will use `SingleCellExperiment` objects. 
+
+# QFeatures
 
 While mass spectrometers acquire data for spectra/peptides, the
 biological entity of interest are the protein. As part of the data
@@ -168,7 +170,7 @@ assay(feat1[[1]])
 rowData(feat1[[1]])
 ```
 
-## Feature aggregation
+# Feature aggregation
 
 
 The central functionality of the `QFeatures` infrastructure is the
@@ -193,23 +195,34 @@ feat1 <- aggregateFeatures(feat1, i = "psms",
 feat1
 ```
 
-- Let's convince yourself that we understand the effect of feature
-  aggregation and repeat the calculations manually and check the
-  content of the new assay's row data.
+**Note**: we do not claim that `colMeans` is the best aggregation 
+method. There are other more robust methods for aggregating features, 
+for instance `MsCoreUtils::robustSummary` is a good alternative. See 
+the documentation of `aggregateFeatures` for more information. 
 
+**Exercise at home**: check that you understand the effect of feature
+aggregation and repeat the calculations manually. Compare your manual 
+results agains the content of the new assay's row data.
+
+<details><summary>Solution</summary>
 ```{r cm}
+## Data before aggregation
+data.frame(assay(feat1[["psms"]]), 
+           Sequence = rowData(feat1[["psms"]])$Sequence)
+
 ## SYGFNAAR
-colMeans(assay(feat1[[1]])[1:3, ])
+colMeans(assay(feat1[["psms"]])[1:3, ])
 assay(feat1[[2]])["SYGFNAAR", ]
 
 ## ELGNDAYK
-colMeans(assay(feat1[[1]])[4:6, ])
+colMeans(assay(feat1[["psms"]])[4:6, ])
 assay(feat1[[2]])["ELGNDAYK", ]
 
 ## IAEESNFPFIK
-colMeans(assay(feat1[[1]])[7:10, ])
+colMeans(assay(feat1[["psms"]])[7:10, ])
 assay(feat1[[2]])["IAEESNFPFIK", ]
 ```
+</details>
 
 ```{r rd2}
 rowData(feat1[[2]])
@@ -227,14 +240,29 @@ feat1
 assay(feat1[["proteins"]])
 ```
 
+You can also get a graphical overview of the QFeatures object thanks to
+the `plot` function. Arrows represent the links between the assays. 
 
-## Subsetting and filtering
+```{r plot, out.height="300px", out.width="300px"}
+plot(feat1)
+```
 
-The link between the assays becomes apparent when we now subset the
-assays for protein A as shown below or using the `subsetByFeature()`
-function. This creates a new instance of class `QFeatures` containing
-assays with the expression data for protein, its peptides and their
-PSMs.
+# Subsetting and filtering
+
+The subsetting a `QFeatures` object can be performed using the 3-index
+subset operator, `[`. The first index will subset the features of 
+interest. If the feature is linked to features from other assays, those
+features will also 
+
+```{r QFeatures_subsetting, echo = FALSE, fig.cap = "Conceptual illustration of the 3-index subsetting of `QFeatures` object.",  out.width="80%"}
+knitr::include_graphics("figs/QFeatures_subsetting.png")
+```
+
+We provide an example of subsetting features that are associated to 
+features from other assays. When we subset for protein A as shown 
+below or using the `subsetByFeature()` function, this creates a new
+instance of class `QFeatures` containing assays with the expression 
+data for protein, its peptides and their PSMs.
 
 ```{r prota}
 feat1["ProtA", , ]
@@ -260,12 +288,69 @@ filterFeatures(feat1, ~ location == "Mitochondrion")
 As an exercise, let's filter rows that do not localise to the
 mitochondrion.
 
-
 ```{r ff3}
 filterFeatures(feat1, ~ location != "Mitochondrion")
 ```
 
-## Further reading
+Another useful filtering functionality is `filterNA` that removes 
+features based on the amount of missing data it contains. To 
+illustrate this, we will load a data set containing missing data
+
+```{r missing}
+data("ft_na")
+ft_na
+assay(ft_na[[1]])
+```
+
+We can remove feature that contain more that a given percentage 
+missing values. For instance, let's remove features with more than 25
+\% missing data. We expect to keep only 1 features as all the other
+features contain 33 \% missing values. 
+
+```{r filterNA}
+filterNA(ft_na, i = "na", pNA = 0.25)
+```
+
+The resulting `QFeatures` object contains a single feature as we
+expected. 
+
+# Data processing
+
+The `Qfeatures` package provides a few utility functions to process 
+the data: 
+
+- Logarithmic transform: `logTransform` creates a new assay in a 
+  `QFeatures` object that contains the log-transformed quantification
+  of the target assay. 
+  
+```{r logTransform}
+logTransform(feat1, i = "proteins", base = 2, name = "logproteins")
+```
+
+- Normalization: `normalize` creates a new assay in a 
+  `QFeatures` object that contains the normalized quantification
+  of the target assay. See the `?QFeatures::normalize` documentation 
+  for a list of available normalization methods. If the method you are
+  looking for is not available, you could also consider 
+  `QFeatures::sweep`. 
+
+```{r}
+normalize(feat1, i = "proteins", method = "center.median", name = "normproteins")
+```
+
+- Imputation: `imputes` predicts missing values in a new assay. See
+  the `?MsCoreUtils::impute_matrix()` for a list of available 
+  imputation methods. In this example, we impute missing values with 
+  zero. 
+
+```{r}
+assay(ft_na[[1]])
+ft_na <- impute(ft_na, i = 1, method = "zero")
+assay(ft_na[[1]])
+```
+
+
+# Further reading
 
 You can refer to the [*Quantitative features for mass spectrometry
 data*](https://rformassspectrometry.github.io/QFeatures/articles/QFeatures.html)
@@ -273,10 +358,10 @@ vignette and the `QFeature` [manual
 page](https://rformassspectrometry.github.io/QFeatures/reference/QFeatures-class.html)
 for more details about the class.
 
-## Session information {-}
+# Session information {-}
 
 ```{r si}
 sessionInfo()
 ```
 
-## References {-}
+# References {-}

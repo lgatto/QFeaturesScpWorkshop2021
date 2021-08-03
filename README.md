@@ -26,8 +26,8 @@ provides a general introduction to the `QFeatures` class in the
 general context of MS-based proteomics data manipulation. The 
 [second vignette](https://lgatto.github.io/QFeaturesScpWorkshop2021/articles/v02-scp.html)
 focuses on single-cell application and introduces the `scp` package as
-an extension of `QFeatures`. This second vignette also provides an 
-exercise that gives the attendee the opportunity to apply the learned
+an extension of `QFeatures`. This second vignette also provides 
+exercises that give the attendee the opportunity to apply the learned
 concepts to reproduce a published analysis on a subset of a real data
 set.
 
@@ -35,7 +35,7 @@ set.
 
 * Basic knowledge of R syntax
 * Familiarity with the `SummarizedExperiment` class
-* Familiarity with the `tidyverse` ecosystem
+* Familiarity with the `ggplot2` package
 
 We recommend reading the paper that has published the SCP analysis that
 will be reproduced in this workshop:
