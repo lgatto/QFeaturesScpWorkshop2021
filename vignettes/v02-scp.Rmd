@@ -23,9 +23,7 @@ knitr::opts_chunk$set(echo = TRUE,
 library(scp)
 library(scpdata)
 library(sva)
-library(ggplot2)
-library(magrittr)
-library(tidyr)
+library(tidyverse)
 ```
 
 **Last modified:** `r file.info("v02-scp.Rmd")$mtime`<br />
