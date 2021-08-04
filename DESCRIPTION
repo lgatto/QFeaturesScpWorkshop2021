@@ -61,7 +61,13 @@ Suggests:
     scuttle,
     impute,
     sva,
-    DelayedMatrixStats
+    DelayedMatrixStats,
+    HDF5Array, 
+    msdata, 
+    limma,
+    factoextra, 
+    patchwork, 
+    gplots
 Remotes:
    UCLouvain-CBIO/SCP.replication
 URL: https://github.com/lgatto/QFeaturesScpWorkshop2021
