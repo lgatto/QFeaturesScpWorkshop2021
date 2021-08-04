@@ -488,12 +488,14 @@ compute the mean of the samples. There is only a single carrier, so
 you don't need to bother providing `carrierFUN`. 
 
 ```{r, echo=FALSE}
-# save(lcb3, file = file.path("../data/exercise1.rda"), 
-#      compress = "xz", compression_level = 9)
+lcb3_1 <- lcb3
+save(lcb3_1, file = file.path("../data/lcb3_1.rda"), 
+     compress = "xz", compression_level = 9)
 ```
 
 ```{r load_ex1, eval = FALSE}
-data("exercise1")
+data("lcb3_1")
+lcb3 <- lcb3_1
 ```
 
 <details><summary>Hint 1</summary>
@@ -680,13 +682,14 @@ aggregate PSMs to peptides. Don't forget to provide the
 `remove.duplicates` as an aggregating function. 
 
 ```{r, echo = FALSE}
-# save(remove.duplicates, peptideAssays, lcb3, 
-#      file = file.path("../data/exercise2.rda"), 
-#      compress = "xz", compression_level = 9)
+lcb3_2 <- lcb3
+save(lcb3_2, file = file.path("../data/lcb3_2.rda"), 
+     compress = "xz", compression_level = 9)
 ```
 
 ```{r, eval = FALSE}
-data("exercise2")
+data("lcb3_2")
+lcb3 <- lcb3_2
 ```
 
 <details><summary>Hint</summary>
@@ -851,12 +854,14 @@ samples based on the associated `colData` using the `subsetByColData`
 function from the `MultiAssayExperiment` package. 
 
 ```{r, echo = FALSE}
-# save(lcb3, file = file.path("../data/exercise3.rda"), 
-#      compress = "xz", compression_level = 9)
+lcb3_3 <- lcb3
+save(lcb3_3, file = file.path("../data/lcb3_3.rda"), 
+     compress = "xz", compression_level = 9)
 ```
 
 ```{r, eval = FALSE}
-data("exercise3")
+data("lcb3_3")
+lcb3 <- lcb3_3
 ```
 
 <details><summary>Fill the blanks</summary>
@@ -1053,13 +1058,14 @@ one-to-one relationship between the features of the last assay
 (`proteins_norm2`) and the features of the newly added assay. 
 
 ```{r, echo = FALSE}
-# save(lcb3, sce, 
-#      file = file.path("../data/exercise4.rda"), 
-#      compress = "xz", compression_level = 9)
+lcb3_4 <- lcb3
+save(lcb3_4, file = file.path("../data/lcb3_4.rda"), 
+     compress = "xz", compression_level = 9)
 ```
 
 ```{r, eval=FALSE}
-data("exercise4")
+data("lcb3_4")
+lcb3 <- lcb3_4
 ```
 
 <details><summary>Fill the blank: addAssay</summary>
@@ -1143,12 +1149,14 @@ exercise, include the `colData` variables: `Set`, `Channel` and
 `SampleType`.
 
 ```{r, echo = FALSE}
-# save(lcb3, file = file.path("../data/exercise5.rda"), 
-#      compress = "xz", compression_level = 9)
+lcb3_5 <- lcb3
+save(lcb3_5, file = file.path("../data/lcb3_5.rda"), 
+     compress = "xz", compression_level = 9)
 ```
 
 ```{r, eval=FALSE}
-data("exercise5")
+data("lcb3_5")
+lcb3 <- lcb3_5
 ```
 
 <details><summary>Fill the blanks</summary>
