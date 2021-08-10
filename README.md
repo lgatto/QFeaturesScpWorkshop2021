@@ -80,24 +80,42 @@ This 90 min workshop will be split in three parts:
 
 ## Running the workshop
 
-You can install all necessary packages to run the workshop locally by
-installing the following packages:
+### How to run the workshop
+
+There are 3 ways you can follow the workshop, listed from easiest to 
+more advanced: 
+
+1. Read the static vignettes (available from the `Articles` tab at the
+   top of this page). In this case, there are no software requirements,
+   but you won't be able to run the code yourself as everything is 
+   already compiled. 
+2. Run the workshop on the cloud. You can make use of the 
+   [orchestra server](http://app.orchestra.cancerdatasci.org/)
+   set up by the `Bioconductor` community. Follow the 
+   [instruction](https://github.com/lgatto/QFeaturesScpWorkshop2021/tree/main/inst/Get_started_on_cloud.pdf)
+   about how to get access to the server.
+3. Run the vignettes on your local machine. You can get access to the 
+   source files of the vignette
+   [here](https://github.com/lgatto/QFeaturesScpWorkshop2021/tree/main/vignettes)
+   and run the code on your own computer. You can install all 
+   necessary packages to run the workshop locally by installing the 
+   following packages:
 
 ```r
 ## Bioconductor packages
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
-
+if (BiocManager::version() < 3.14) stop("Your BiocManager version is too old.")
 BiocManager::install("QFeatures")
 BiocManager::install("scp")
 BiocManager::install("scpdata")
 ```
 
-The
+If you want to avoid dependency and version issues when running the 
+vignettes locally, the
 [lgatto/qfeaturesscpworkshop2021](https://hub.docker.com/repository/docker/lgatto/qfeaturesscpworkshop2021)
-docker container has all packages necessary for running the workshop vignettes.
-
-The container can be downloaded and run with
+docker container has all packages necessary for running the workshop 
+vignettes. The container can be downloaded and run with
 
 ```sh
 docker run -e PASSWORD=bioc -p 8787:8787 lgatto/qfeaturesscpworkshop2021:latest
@@ -108,8 +126,7 @@ docker run -e PASSWORD=bioc -p 8787:8787 lgatto/qfeaturesscpworkshop2021:latest
 Once running, navigate to https://localhost:8787/ and then login with
 user `rstudio` and password `bioc`.
 
-During the [Bioc2021](https://bioc2021.bioconductor.org/) conference,
-the workshop can be [run in the cloud](http://app.orchestra.cancerdatasci.org/).
+## License 
 
 The content of this workshop is provided under a
 [CC-BY ShareAlike](https://creativecommons.org/licenses/by-sa/2.0/)
