@@ -80,8 +80,6 @@ This 90 min workshop will be split in three parts:
 
 ## Running the workshop
 
-### How to run the workshop
-
 There are 3 ways you can follow the workshop, listed from easiest to 
 more advanced: 
 
