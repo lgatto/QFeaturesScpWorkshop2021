@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Authors • QFeaturesScpWorkshop2021</title>
+<title>Data for exercise 4 — lcb3_4 • QFeaturesScpWorkshop2021</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,13 +33,34 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Authors" />
+<meta property="og:title" content="Data for exercise 4 — lcb3_4" />
+<meta property="og:description" content="A QFeatures object that has been generated to run exercise 4. It was generated
+from the v02-scp.Rmd vignette that replicates the SCoPE2 data
+processing workflow for batch LCB3 up to batch correction. This
+dataset can be used to demonstrate how to add
+SingleCellExperiment objects as new assay in a QFeatures
+object and create links with a parent assay.
+lcb3_4 contains 55 assays:
+Assay 1-24: PSM data for 24 MS runs
+Assay 25-48: aggregated peptide data for 24 MS runs
+Assay 49: joined peptide data containing the sample of all 24
+MS runs
+Assay 50: peptide data after a first normalization
+Assay 51: peptide data after a second normalization
+Assay 52: peptide data after log-transformation
+Assay 53: aggregated protein data
+Assay 54: protein data after a first normalization
+Assay 55: protein data after a second normalization and imputation
+of missing data
+
+
+sce corresponds to Assay 55 after batch correction using ComBat." />
 
 
 
@@ -58,7 +79,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-authors">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -70,7 +91,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">QFeaturesScpWorkshop2021</a>
+        <a class="navbar-link" href="../index.html">QFeaturesScpWorkshop2021</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
@@ -78,13 +99,13 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -94,10 +115,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/v01-QFeatures.html">The QFeatures class</a>
+      <a href="../articles/v01-QFeatures.html">The QFeatures class</a>
     </li>
     <li>
-      <a href="articles/v02-scp.html">scp for single-cell proteomics analyses</a>
+      <a href="../articles/v02-scp.html">scp for single-cell proteomics analyses</a>
     </li>
   </ul>
 </li>
@@ -120,26 +141,55 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Authors</h1>
+    <h1>Data for exercise 4</h1>
+    <small class="dont-index">Source: <a href='https://github.com/lgatto/QFeaturesScpWorkshop2021/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>lcb3_4.Rd</code></div>
     </div>
 
-    <ul class="list-unstyled">
-      <li>
-        <p><strong>Laurent Gatto</strong>. Author, maintainer. <a href='https://orcid.org/0000-0002-1520-2268' target='orcid.widget' aria-label='ORCID'><span class='fab fa-orcid orcid' aria-hidden='true'></span></a>
-        </p>
-      </li>
-      <li>
-        <p><strong>Christophe Vanderaa</strong>. Author. <a href='https://orcid.org/0000-0001-7443-5427' target='orcid.widget' aria-label='ORCID'><span class='fab fa-orcid orcid' aria-hidden='true'></span></a>
-        </p>
-      </li>
-    </ul>
+    <div class="ref-description">
+    <p>A <code>QFeatures</code> object that has been generated to run exercise 4. It was generated
+from the <code>v02-scp.Rmd</code> vignette that replicates the SCoPE2 data
+processing workflow for batch LCB3 up to batch correction. This
+dataset can be used to demonstrate how to add
+<code>SingleCellExperiment</code> objects as new assay in a <code>QFeatures</code>
+object and create links with a parent assay.</p>
+<p><code>lcb3_4</code> contains 55 assays:</p><ul>
+<li><p>Assay 1-24: PSM data for 24 MS runs</p></li>
+<li><p>Assay 25-48: aggregated peptide data for 24 MS runs</p></li>
+<li><p>Assay 49: joined peptide data containing the sample of all 24
+MS runs</p></li>
+<li><p>Assay 50: peptide data after a first normalization</p></li>
+<li><p>Assay 51: peptide data after a second normalization</p></li>
+<li><p>Assay 52: peptide data after log-transformation</p></li>
+<li><p>Assay 53: aggregated protein data</p></li>
+<li><p>Assay 54: protein data after a first normalization</p></li>
+<li><p>Assay 55: protein data after a second normalization and imputation
+of missing data</p></li>
+</ul>
+
+<p><code>sce</code> corresponds to Assay 55 after batch correction using <code>ComBat</code>.</p>
+    </div>
+
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"lcb3_4"</span><span class='op'>)</span></pre>
+
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>An object of class <code>QFeatures</code> of length 55.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other exercise datasets are available: <a href='lcb3_1.html'>lcb3_1</a>,
+<a href='lcb3_2.html'>lcb3_2</a>, <a href='lcb3_3.html'>lcb3_3</a>, <a href='lcb3_5.html'>lcb3_5</a>.</p></div>
 
   </div>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
+  </div>
 </div>
-
 
 
       <footer>

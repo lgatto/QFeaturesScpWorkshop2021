@@ -53,7 +53,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">QFeaturesScpWorkshop2021</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -114,7 +114,7 @@
 <h3 class="hasAnchor">
 <a href="#description" class="anchor"></a>Description</h3>
 <p>Mass spectrometry (MS)-based single-cell proteomics (SCP) is an emerging field that requires a dedicated computational environment. <code>QFeatures</code> along with its extension <code>scp</code> allow for standardized analysis of SCP data. The workshop will start by introducing the <code>QFeatures</code> class and its functions to perform generic proteomics data analysis. We will then move to SCP and present how <code>scp</code> extends <code>QFeatures</code> to single-cell applications. The remainder of the workshop will be a hands-on session where attendees will be guided through the reproduction of a real-life analysis of published SCP data. Along the reproduction exercise, we will point out to current challenges that still need to be tackled computationally. This workshop is meant for inexperienced users that want to learn how to perform current state-of-the-art analysis of SCP data as well as experienced developers interested in contributing to an emerging and exciting single-cell technology.</p>
-<p>This workshop is provided as two vignettes. The <a href="https://lgatto.github.io/QFeaturesScpWorkshop2021/articles/v01-QFeatures.html">first vignette</a> provides a general introduction to the <code>QFeatures</code> class in the general context of MS-based proteomics data manipulation. The <a href="https://lgatto.github.io/QFeaturesScpWorkshop2021/articles/v02-scp.html">second vignette</a> focuses on single-cell application and introduces the <code>scp</code> package as an extension of <code>QFeatures</code>. This second vignette also provides an exercise that gives the attendee the opportunity to apply the learned concepts to reproduce a published analysis on a subset of a real data set.</p>
+<p>This workshop is provided as two vignettes. The <a href="https://lgatto.github.io/QFeaturesScpWorkshop2021/articles/v01-QFeatures.html">first vignette</a> provides a general introduction to the <code>QFeatures</code> class in the general context of MS-based proteomics data manipulation. The <a href="https://lgatto.github.io/QFeaturesScpWorkshop2021/articles/v02-scp.html">second vignette</a> focuses on single-cell application and introduces the <code>scp</code> package as an extension of <code>QFeatures</code>. This second vignette also provides exercises that give the attendee the opportunity to apply the learned concepts to reproduce a published analysis on a subset of a real data set.</p>
 </div>
 <div id="pre-requisites" class="section level3">
 <h3 class="hasAnchor">
@@ -122,7 +122,7 @@
 <ul>
 <li>Basic knowledge of R syntax</li>
 <li>Familiarity with the <code>SummarizedExperiment</code> class</li>
-<li>Familiarity with the <code>tidyverse</code> ecosystem</li>
+<li>Familiarity with the <code>ggplot2</code> package</li>
 </ul>
 <p>We recommend reading the paper that has published the SCP analysis that will be reproduced in this workshop:</p>
 <p>Specht, Harrison, Edward Emmott, Aleksandra A. Petelski, R. Gray Huffman, David H. Perlman, Marco Serra, Peter Kharchenko, Antonius Koller, and Nikolai Slavov. 2021. “Single-Cell Proteomic and Transcriptomic Analysis of Macrophage Heterogeneity Using SCoPE2.” Genome Biology 22 (1): 50. <a href="http://dx.doi.org/10.1186/s13059-021-02267-5">link to article</a>, <a href="https://www.biorxiv.org/content/10.1101/665307v5">link to preprint</a></p>
@@ -178,21 +178,28 @@
 <div id="running-the-workshop" class="section level2">
 <h2 class="hasAnchor">
 <a href="#running-the-workshop" class="anchor"></a>Running the workshop</h2>
-<p>You can install all necessary packages to run the workshop locally by installing the following packages:</p>
+<p>There are 3 ways you can follow the workshop, listed from easiest to more advanced:</p>
+<ol>
+<li>Read the static vignettes (available from the <code>Articles</code> tab at the top of this page). In this case, there are no software requirements, but you won’t be able to run the code yourself as everything is already compiled.</li>
+<li>Run the workshop on the cloud. You can make use of the <a href="http://app.orchestra.cancerdatasci.org/">orchestra server</a> set up by the <code>Bioconductor</code> community. Follow the <a href="https://github.com/lgatto/QFeaturesScpWorkshop2021/tree/main/inst/Get_started_on_cloud.pdf">instruction</a> about how to get access to the server.</li>
+<li>Run the vignettes on your local machine. You can get access to the source files of the vignette <a href="https://github.com/lgatto/QFeaturesScpWorkshop2021/tree/main/vignettes">here</a> and run the code on your own computer. You can install all necessary packages to run the workshop locally by installing the following packages:</li>
+</ol>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">## Bioconductor packages</span>
 <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
     <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
-
+<span class="kw">if</span> <span class="op">(</span><span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/version.html">version</a></span><span class="op">(</span><span class="op">)</span> <span class="op">&lt;</span> <span class="fl">3.14</span><span class="op">)</span> <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"Your BiocManager version is too old."</span><span class="op">)</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"QFeatures"</span><span class="op">)</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"scp"</span><span class="op">)</span>
 <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"scpdata"</span><span class="op">)</span></code></pre></div>
-<p>The <a href="https://hub.docker.com/repository/docker/lgatto/qfeaturesscpworkshop2021">lgatto/qfeaturesscpworkshop2021</a> docker container has all packages necessary for running the workshop vignettes.</p>
-<p>The container can be downloaded and run with</p>
+<p>If you want to avoid dependency and version issues when running the vignettes locally, the <a href="https://hub.docker.com/repository/docker/lgatto/qfeaturesscpworkshop2021">lgatto/qfeaturesscpworkshop2021</a> docker container has all packages necessary for running the workshop vignettes. The container can be downloaded and run with</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-e</span> PASSWORD=bioc <span class="at">-p</span> 8787:8787 lgatto/qfeaturesscpworkshop2021:latest</span></code></pre></div>
 <p>(you can choose any password, not only <code>bioc</code>, above)</p>
 <p>Once running, navigate to <a href="https://localhost:8787/" class="uri">https://localhost:8787/</a> and then login with user <code>rstudio</code> and password <code>bioc</code>.</p>
-<p>During the <a href="https://bioc2021.bioconductor.org/">Bioc2021</a> conference, the workshop can be <a href="http://app.orchestra.cancerdatasci.org/">run in the cloud</a>.</p>
+</div>
+<div id="license" class="section level2">
+<h2 class="hasAnchor">
+<a href="#license" class="anchor"></a>License</h2>
 <p>The content of this workshop is provided under a <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY ShareAlike</a> license.</p>
 <pre><code>
 To cite package 'QFeaturesScpWorkshop2021' in publications use:
